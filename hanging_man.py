@@ -1,37 +1,107 @@
 import random
-word_list=["billionaire","money","sell_drugs","make more money"]
-chosen_word=random.choice(word_list)
-x=""
 
-for i in range(len(chosen_word)):
-    x+="_"
-print(x)
+word_list = ["billionaire", "money", "sell_drugs", "make_more_money"]
+chosen_word = random.choice(word_list)
 
-game_end=False
+# Create blanks
+display = ""
+for _ in range(len(chosen_word)):
+    display += "_"
 
-live=6
-hh=[]
+stages = [
+"""
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========
+""",
+"""
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========
+""",
+"""
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========
+""",
+"""
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========
+""",
+"""
+  +---+
+  |   |
+  O   |
+ /|\\  |
+      |
+      |
+=========
+""",
+"""
+  +---+
+  |   |
+  O   |
+ /|\\  |
+ /    |
+      |
+=========
+""",
+"""
+  +---+
+  |   |
+  O   |
+ /|\\  |
+ / \\  |
+      |
+=========
+"""
+]
+
+game_end = False
+lives = 6
+guessed_letters = []
+
+print("Welcome to Hangman!")
+print(display)
+
 while not game_end:
-    dis=''  
-    guess=input("guess the word :  ").lower()
-    for i in chosen_word:
-        if i == guess:
-            dis+=i
-            hh.append(i)
-        
-        elif i in hh:
-            dis+=i
-        
+    guess = input("Guess a letter: ").lower()
+    guessed_letters.append(guess)
+    new_display = ""
+    for letter in chosen_word:
+        if letter in guessed_letters:
+            new_display += letter
         else:
-            dis+="_"
-    print(dis)
-    if "_" not in dis:
-        game_end=True
-        print("you win")
-        
-if live not in guess:
-    live-=1
-    if live ==0:
-        game_end=True
+            new_display += "_"
+
+    display = new_display
+    print(display)
+    if guess not in chosen_word:
+        lives -= 1
+        print(f"Wrong guess! Lives left: {lives}")
+
+    print(stages[6 - lives])
+    if "_" not in display:
+        game_end = True
+        print("You win!")
+    if lives == 0:
+        game_end = True
         print("you lose")
-        
+        print(f"The word was: {chosen_word}")

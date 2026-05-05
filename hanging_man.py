@@ -2,8 +2,6 @@ import random
 
 word_list = ["billionaire", "money", "sell_drugs", "make_more_money"]
 chosen_word = random.choice(word_list)
-
-# Create blanks
 display = ""
 for _ in range(len(chosen_word)):
     display += "_"
